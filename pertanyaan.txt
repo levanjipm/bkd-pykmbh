@@ -1,0 +1,6 @@
+16 November 2015
+1. Apakah memungkinkan jika tabel jabatan struktural dan fungsional terhubung secara 1 ke N dengan tabel skpd? Jadi nantinya history seorang PNS pernah bekerja dengan jabatn apa dan dimana tempat kerjanya, diambil langsung dari tabel relas jabatan dengan pns (query terhadap 3 tabel)
+1.a. Terkait jabatan, apakah memungkinkan jika terhubung ke skpd, sehingga jabatan di 1 skpd berbeda dengan skpd lainnya (kep)
+2. Terkait Eselon, apakah perlu tabel terpisah dengan pangkat? karena kemarin belum dibahas mengenai eselon.
+
+s
