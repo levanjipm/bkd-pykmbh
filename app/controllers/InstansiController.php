@@ -9,8 +9,14 @@ class InstansiController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$instansi = instansi::all();
+		$instansi = instansi::paginate(20);
 		$this->layout->content = View::make('instansi.index')->with('instansi', $instansi);
+	}
+
+	public function search()
+	{
+		$instansi = instansi::where('nama','LIKE', '%'.Input::get('keyword').'%')->paginate(20);
+		$this->layout->content = View::make('instansi.index')->with('instansi', $instansi)->with('keyword', Input::get('keyword'));
 	}
 
 

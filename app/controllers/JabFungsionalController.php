@@ -9,11 +9,15 @@ class JabFungsionalController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$fungsional = fungsional::all();
+		$fungsional = fungsional::paginate(20);
 		$this->layout->content = View::make('fungsional.index')->with('fungsional', $fungsional);
 	}
 
-
+	public function search()
+	{
+		$fungsional = fungsional::where('nama','LIKE', '%'.Input::get('keyword').'%')->paginate(20);
+		$this->layout->content = View::make('fungsional.index')->with('fungsional', $fungsional)->with('keyword', Input::get('keyword'));
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -101,19 +105,19 @@ class JabFungsionalController extends \PykmbhBaseController {
 
         if ($validation->fails())
 		{
-			return Redirect::to('data/jabatan-fungsional/create')->with('message', errorMsg(json_decode($validation->messages(), true)))->with('type', 2)->withInput();
+			return Redirect::to('data/jabatan-fungsional/'.$id.'/edit')->with('message', errorMsg(json_decode($validation->messages(), true)))->with('type', 2)->withInput();
 		}
 		else
 		{
 			$fungsional = fungsional::find($id);
-			$pendidikan->nama = Input::get('nama');
-			$pendidikan->jenis = Input::get('jenis');
+			$fungsional->nama = Input::get('nama');
+			$fungsional->jenis = Input::get('jenis');
 
-			if ($pendidikan->save()) 
+			if ($fungsional->save()) 
 				return Redirect::to('data/jabatan-fungsional')->with('message', 'Data jabatan fungsional telah ditambahkan')->with('type', 1);
 			
 			else
-				return Redirect::to('data/jabatan-fungsional/create')->with('message', 'Kesalahan pada server')->with('type', 2)->withInput();
+				return Redirect::to('data/jabatan-fungsional/'.$id.'/edit')->with('message', 'Kesalahan pada server')->with('type', 2)->withInput();
 		}
 	}
 

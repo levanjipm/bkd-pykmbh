@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SIPAKET - Login</title>
+    <title>BKD Payakumbuh - Login</title>
 
     <!-- Bootstrap Core CSS -->
     {{HTML::style('assets/bower_components/bootstrap/dist/css/bootstrap.min.css')}}
@@ -33,26 +33,32 @@
 </head>
 
 <body>
-
+          
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-6 col-md-offset-3">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Sistem Informasi Pelayanan Kepegawaian Terpadu</h3>
+                        <h3 class="panel-title">Sistem Informasi Pelayanan Kepegawaian Terpadu Kota Payakumbuh</h3>
                     </div>
                     <div class="panel-body">
                         {{ Form::open(array('url' => url('login'), 'role' => 'form')) }}
-                        <form role="form">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus value="admin@admin.com">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="admin">
-                                </div>
-                                <button  class="btn btn-lg btn-success btn-block">Login</button>
-                            </fieldset>
+                        <div class="row">
+                            <div class="col-md-3">
+                                 <img class="pull-left" width="100px" src="{{ URL::to('/') }}/assets/images/logo-kota.png">
+                            </div>
+                            <div class="col-md-9">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Username" name="email" type="text" autocomplete="false">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Password" name="password" type="password">
+                                    </div>
+                                    <button  class="btn btn-lg btn-success btn-block">Login</button>
+                                </fieldset>
+                            </div>
+                        </div>
                         {{ Form::close() }}
                     </div>
                 </div>

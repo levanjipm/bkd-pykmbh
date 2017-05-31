@@ -10,12 +10,12 @@
 			<input type="text" class="form-control" value="" name="nama">
 		</div>
 		<div class="form-group">
-			<label>Eselon (Angka)</label>
-			<input type="text" class="form-control" value="" name="eselonangka">
-		</div>
-		<div class="form-group">
-			<label>Eselon (Huruf)</label>
-			<input type="text" class="form-control" value="" name="eselonhuruf">
+			<label>Eselon</label>
+			<select class="form-control" name="eselon">
+				@foreach($eselon as $key=>$value)
+				<option value="{{$value->id}}">{{$value->eselon}}</option>
+				@endforeach
+			</select>
 		</div>
 		<div class="form-group">
 			<label>Atasan</label>

@@ -5,7 +5,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="index.html">Sistem Informasi Pelayanan Kepegawaian Terpadu</a>
+    <a class="navbar-brand" href="index.html">Sistem Informasi Pelayanan Kepegawaian Terpadu Kota Payakumbuh</a>
 </div>
 <!-- /.navbar-header -->
 

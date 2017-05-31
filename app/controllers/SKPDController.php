@@ -9,11 +9,15 @@ class SKPDController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$skpd = SKPD::all();
+		$skpd = SKPD::paginate(20);
 		$this->layout->content = View::make('skpd.index')->with('skpd', $skpd);
 	}
 
-
+	public function search()
+	{
+		$skpd = SKPD::where('nama','LIKE', '%'.Input::get('keyword').'%')->paginate(20);
+		$this->layout->content = View::make('skpd.index')->with('skpd', $skpd)->with('keyword', Input::get('keyword'));
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -81,7 +85,9 @@ class SKPDController extends \PykmbhBaseController {
 	public function edit($id)
 	{
 		$skpd = SKPD::find($id);
-		$this->layout->content = View::make('skpd.edit')->with('skpd', $skpd);
+		$induks = SKPD::where('id', '!=', $id)->get();
+
+		$this->layout->content = View::make('skpd.edit')->with('skpd', $skpd)->with('induks', $induks);
 	}
 
 
@@ -105,7 +111,6 @@ class SKPDController extends \PykmbhBaseController {
 		}
 		else
 		{
-			return Input::get('induk');
 			
 			$skpd = SKPD::find($id);
 			$skpd->nama = Input::get('nama');

@@ -9,11 +9,15 @@ class PendidikanController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$pendidikan = pendidikan::all();
+		$pendidikan = pendidikan::paginate(20);
 		$this->layout->content = View::make('pendidikan.index')->with('pendidikan', $pendidikan);
 	}
 
-
+	public function search()
+	{
+		$pendidikan = pendidikan::where('jenis','LIKE', '%'.Input::get('keyword').'%')->ppaginate(20);
+		$this->layout->content = View::make('pendidikan.index')->with('pendidikan', $pendidikan)->with('keyword', Input::get('keyword'));
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *

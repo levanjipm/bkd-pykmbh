@@ -47,7 +47,7 @@
 				@if($skpd->jabatan->count() > 0)
 				<ol>
 					@foreach($skpd->jabatan as $key=> $value)
-					<li><a href="{{url('data/jabatan-struktural/'.$value->jabatan->id)}}">{{$value->jabatan->nama}}</a></li>
+					<li><a href="{{url('data/jabatan-struktural/'.$value->jabatan['id'])}}">{{$value->jabatan['nama']}}</a></li>
 					@endforeach
 				</ol>
 				@else

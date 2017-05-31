@@ -9,11 +9,15 @@ class PangkatController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$pangkat = pangkat::all();
+		$pangkat = pangkat::paginate(20);
 		$this->layout->content = View::make('pangkat.index')->with('pangkat', $pangkat);
 	}
 
-
+	public function search()
+	{
+		$pangkat = pangkat::where('golongan','LIKE', '%'.Input::get('keyword').'%')->ppaginate(20);
+		$this->layout->content = View::make('pangkat.index')->with('pangkat', $pangkat)->with('keyword', Input::get('keyword'));
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -33,8 +37,7 @@ class PangkatController extends \PykmbhBaseController {
 	public function store()
 	{
 		$rules = array(
-						'golongan'		=> 'required',
-						'ruang'		=> 'required'
+						'golongan'		=> 'required'
 				      );
 
         $validation = Validator::make(Input::all(),$rules);
@@ -47,7 +50,6 @@ class PangkatController extends \PykmbhBaseController {
 		{
 			$pangkat = new pangkat;
 			$pangkat->golongan = Input::get('golongan');
-			$pangkat->ruang = Input::get('ruang');
 
 			if ($pangkat->save()) 
 				return Redirect::to('data/pangkat')->with('message', 'Data pangkat telah ditambahkan')->with('type', 1);
@@ -93,8 +95,7 @@ class PangkatController extends \PykmbhBaseController {
 	public function update($id)
 	{
 		$rules = array(
-						'golongan'		=> 'required',
-						'ruang'		=> 'required'
+						'golongan'		=> 'required'
 				      );
 
         $validation = Validator::make(Input::all(),$rules);
@@ -107,7 +108,6 @@ class PangkatController extends \PykmbhBaseController {
 		{
 			$pangkat = pangkat::find($id);
 			$pangkat->golongan = Input::get('golongan');
-			$pangkat->ruang = Input::get('ruang');
 
 			if ($pangkat->save()) 
 				return Redirect::to('data/pangkat')->with('message', 'Data pangkat telah diperbarui')->with('type', 1);

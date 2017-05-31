@@ -9,10 +9,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Sistem Informasi Pelayanan Kepegawaian Terpadu</title>
+    <title>Sistem Informasi Pelayanan Kepegawaian Terpadu Kota Payakumbuh</title>
 
     @include('layouts.includes.css')
-    
+    @yield('addcss')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,7 +39,7 @@
 
         <!-- Page Content -->
         <div id="page-wrapper">
-            <div class="container-fluid">
+            
                 <div class="row">
                     <div class="col-lg-12">
                     @yield('title')
@@ -51,7 +51,7 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
-            </div>
+            
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->

@@ -1,3 +1,4 @@
+
 @section('title')
 <h1 class="page-header">Data PNS</h1>
 @stop
@@ -8,34 +9,35 @@
 		<div class="panel-body">
 			<div class="form-group">
 				<label>NIP Lama</label>
-				<p>{{$pns->NIPLama}}</p>
+				<p>{{$pns->niplama}}</p>
 			</div>
 			<div class="form-group">
 				<label>NIP Baru</label>
-				<p>{{$pns->NIPBaru}}</p>
+				<p>{{$pns->nipbaru}}</p>
 			</div>
 			<div class="form-group">
 				<label>Nama PNS</label>
-				<p>{{$pns->gelarDepan}} {{$pns->nama}} {{$pns->gelarBelakang}}</p>
+				<p>{{$pns->gelardepan}} {{$pns->nama}} {{$pns->gelarbelakang}}</p>
 			</div>
 			<div class="form-group">
 				<label>Jenis Kelamin</label>
-				<p>{{jenisKelamin($pns->jenisKelamin)}}</p>
+				<p>{{jenisKelamin($pns->jeniskelamin)}}</p>
 			</div>
 			<div class="form-group">
 				<label>Tempat dan Tanggal Lahir</label>
-				<p>{{$pns->tempatLahir}}, {{tanggal($pns->tanggalLahir)}}</p>
+				<p>{{$pns->tempatlahir}}, {{$pns->tanggallahir}}</p>
 			</div>
 			<div class="form-group">
 				<label>Kedudukan Hukum</label>
-				<p>{{$pns->kedudukanHukum}}</p>
+				<p>{{$pns->kedudukanhukum}}</p>
 			</div>
 			<div class="form-group">
 				<label>Jenis Pegawai</label>
-				<p>{{$pns->jenisPegawai}}</p>
+				<p>{{$pns->jenispegawai}}</p>
 			</div>
-
+			@if(checkAdmin())
 			<a href="{{url('/data/pns/'.$pns->id.'/edit')}}" class="btn btn-success pull-right">Edit</a>
+			@endif
 		</div>
 	</div>
 </div>
@@ -72,26 +74,31 @@
 							<tr>
 								<th rowspan="2">SKPD</th>
 								<th rowspan="2">TMT</th>
-								<th colspan="2" class="text-center">Jabatan</th>
+								<th colspan="3" class="text-center">Jabatan</th>
 							</tr>
 							<tr>
 								<th class="text-center">Nama Jabatan</th>
 								<th>TMT</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							@foreach($pnsstruktural as $key=>$value)
 							<tr>
 								<td>{{$value->skpd}}</td>
-								<td>{{$value->skpdtmt}}</td>
+								<td>{{$value->skpdstartdate}}</td>
 								<td>{{$value->jabatan}}</td>
-								<td>{{$value->jabatantmt}}</td>
+								<td>{{$value->jabatanstartdate}}</td>
+								<td>
+									@if($key == 0)
+									<button class="btn btn-success" type="button" data-toggle="modal" data-target="#strukturalAdd">Update Jabatan</button>
+									@endif
+								</td>
 							</tr>
 							@endforeach
 						</tbody>
 					</table>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#skpdAdd">Update SKPD</button>
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#strukturalAdd">Update Jabatan</button>
 				</div>
 				<div class="tab-pane fade" id="fungsional">
 					<table class="table table-hover">
@@ -106,7 +113,7 @@
 							@foreach($pnsfungsional as $key => $value)
 							<tr>
 								<td>{{$value->nama}}</td>
-								<td>{{$value->TMT}}</td>
+								<td>{{$value->startdate}}</td>
 								<td>
 									{{label($value->aktif)}}
 								</td>
@@ -155,7 +162,7 @@
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diklatAdd">Update diklat</button>
 				</div>
 				<div class="tab-pane fade" id="kgb">
-					Saja
+					
 				</div>
 				<div class="tab-pane fade" id="instansi">
 					<div class="row">
@@ -168,10 +175,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($pnsinstansikerja as $key => $value)
+									@foreach($pnsinstansiinduk as $key => $value)
 									<tr>
 										<td>{{$value->nama}}</td>
-										<td>{{$value->TMT}}</td>
+										<td>{{$value->startdate}}</td>
 									</tr>
 									@endforeach
 								</tbody>
@@ -189,7 +196,7 @@
 									@foreach($pnsinstansikerja as $key => $value)
 									<tr>
 										<td>{{$value->nama}}</td>
-										<td>{{$value->TMT}}</td>
+										<td>{{$value->startdate}}</td>
 									</tr>
 									@endforeach
 								</tbody>
@@ -200,7 +207,22 @@
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insKerjaAdd">Update Instansi Kerja</button>
 				</div>
 				<div class="tab-pane fade" id="pangkat">
-					dipikir
+					<table class="table table-hover">
+						<thead>
+							<tr>
+							<th>Pangkat</th>
+								<th>TMT</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($pnspangkat as $key => $value)
+							<tr>
+								<td>{{$value->golongan}}</td>
+								<td>{{$value->startdate}}</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pangkatAdd">Update Pangkat</button>
 				</div>
 			</div>
@@ -266,6 +288,35 @@
 	</div>
 </div>
 
+<div class="modal fade" id="strukturalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Perbarui Data Jabatan Struktural PNS</h4>
+			</div>
+			{{ Form::open(array('url' => url('data/pns/'.$pnsstruktural{0}->current.'/jabatan-struktural'), 'role' => 'form')) }}
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Jabatan Struktural</label>
+					<select class="form-control" name="struktural">
+						{{selectStruktural($pnsstruktural{0}->skpdid)}}
+					</select>
+				</div>
+				<div class="form-group">
+					<label>TMT</label>
+					<input type="text" class="form-control datepicker" name="tmt">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Tambahkan</button>
+			</div>
+			{{ Form::close() }}
+		</div>
+	</div>
+</div>
+
 <div class="modal fade" id="pendidikanAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -309,6 +360,10 @@
 					<select class="form-control" name="diklat">
 						{{selectDiklat()}}
 					</select>
+				</div>
+				<div class="form-group">
+					<label>Tahun</label>
+					<input type="text" name="tahun" class="form-control">
 				</div>
 			</div>
 			<div class="modal-footer">

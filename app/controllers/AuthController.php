@@ -34,18 +34,7 @@ class AuthController extends \BaseController {
 						    'password' => Input::get('password'),
 						));
 
-                $group = Sentry::findGroupById(1);
-
-                if ($user->inGroup($group))
-                {
-					return Redirect::to('/');
-                }
-                else
-                {
-                	Sentry::logout();
-					return Redirect::to('/login')->with('message', 'username/password salah')->with('type', 3);
-                }
-
+				return Redirect::to('/');
             }
     //         catch(\Exception $e)
     //         {

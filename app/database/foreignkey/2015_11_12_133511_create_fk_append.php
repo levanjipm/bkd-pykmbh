@@ -12,10 +12,10 @@ class CreateFkAppend extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('pykmbh_pns', function($table) 
-		{
-	       	$table->foreign('userId')->references('id')->on('users');
-	   	});
+		// Schema::table('pykmbh_pns', function($table) 
+		// {
+	 //       	$table->foreign('userId')->references('id')->on('users');
+	 //   	});
 
 	   	Schema::table('pykmbh_kgb', function($table) 
 		{
@@ -37,6 +37,7 @@ class CreateFkAppend extends Migration {
 		{
 	       	$table->foreign('pnsId')->references('id')->on('pykmbh_pns');
 	       	$table->foreign('pendidikanId')->references('id')->on('pykmbh_pendidikan');
+	       	$table->foreign('jurusanId')->references('id')->on('pykmbh_jurusan');
 	   	});
 
 	   	Schema::table('pykmbh_pns_diklat', function($table) 

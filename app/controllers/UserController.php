@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends \BaseController {
+class UserController extends \PykmbhBaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,9 +9,15 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$user = User::paginate(20);
+		$this->layout->content = View::make('user.index')->with('user', $user);
 	}
 
+	public function search()
+	{
+		$user = User::where('email', 'LIKE', '%'.Input::get('keyword').'%')->paginate(20);
+		$this->layout->content = View::make('user.index')->with('user', $user)->with('keyword', Input::get('keyword'));
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -20,7 +26,7 @@ class UserController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		$this->layout->content = View::make('user.create');
 	}
 
 
@@ -31,7 +37,35 @@ class UserController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$rules = array(
+			'email'		=> 'required|email',
+			'password'		=> 'required',
+			'cpassword'		=> 'required|same:password',
+			'admin'		=> 'required',
+			);
+
+		$validation = Validator::make(Input::all(),$rules);
+
+		if ($validation->fails())
+		{
+			return Redirect::to('user/create')->with('message', errorMsg(json_decode($validation->messages(), true)))->with('type', 2)->withInput();
+		}
+		else
+		{
+			$user = Sentry::createUser(array(
+				'email'     => Input::get('email'),
+				'password'  => Input::get('password'),
+				'activated' => true,
+				));
+
+     // Find the group using the group id
+			$adminGroup = Sentry::findGroupByName((Input::get('admin')==1)?'SuperAdmin':'Viewer');
+
+    // Assign the group to the user
+			$user->addGroup($adminGroup);
+
+			return Redirect::to('user')->with('message', 'Data user telah ditambahkan')->with('type', 1);
+		}
 	}
 
 
@@ -43,7 +77,8 @@ class UserController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$user = User::all();
+		$this->layout->content = View::make('user.index')->with('user', $user);
 	}
 
 
@@ -55,7 +90,8 @@ class UserController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$user = User::all();
+		$this->layout->content = View::make('user.index')->with('user', $user);
 	}
 
 

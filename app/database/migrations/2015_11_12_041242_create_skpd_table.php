@@ -16,6 +16,7 @@ class CreateSkpdTable extends Migration {
 		{
 		    $table->increments('id');
 		    $table->integer('indukId')->unsigned();
+		    $table->boolean('isKecamatan');
 		    $table->string('nama', 200);
 		    $table->timestamps();
 		});

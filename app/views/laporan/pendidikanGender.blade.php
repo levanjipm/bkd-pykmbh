@@ -1,9 +1,23 @@
+@section('addcss')
+{{HTML::style('assets/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css')}}
+
+{{HTML::style('assets/bower_components/datatables-responsive/css/dataTables.responsive.css')}}
+@stop
+
 @section('title')
-<h1 class="page-header">Laporan Tingkat Pendidikan per Gender</h1>
+<h1 class="page-header">{{$title}}</h1>
 @stop
 
 @section('content')
 <div class="col-lg-12">
+	<a href="{{url('laporan/export')}}" class="pull-right btn btn-primary" target="_blank">Export</a>
+	<div class="form-group">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" id="show">Checkbox 1
+			</label>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-lg-12">
 			<table class="table table-bordered">
@@ -68,4 +82,7 @@
 @stop
 
 @section('addjs')
+{{HTML::script('assets/bower_components/datatables/media/js/jquery.dataTables.min.js')}}
+
+{{HTML::script('assets/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js')}}
 @stop

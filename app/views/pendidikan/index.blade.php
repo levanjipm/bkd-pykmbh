@@ -6,11 +6,11 @@
 <div class="col-lg-12">
 	<div class="row">
 		<div class="col-lg-4">
-			{{ Form::open(array('url' => url('login'), 'role' => 'form')) }}
+			{{ Form::open(array('url' => url('data/pendidikan/cari'), 'role' => 'form', 'method' => 'get')) }}
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Pencarian">
+				<input type="text" class="form-control" placeholder="Pencarian" name="keyword" value="{{(isset($keyword))?$keyword:''}}">
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+					<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
 				</span>
 			</div><!-- /input-group -->
 			{{Form::close()}}
@@ -30,8 +30,7 @@
 					<tr>
 						<th width="10%">#</th>
 						<th>Jenis Pendidikan</th>
-						<th>Dibuat Tanggal</th>
-						<th></th>
+						<th width="20%"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -39,7 +38,6 @@
 					<tr>
 						<td>{{$key+1}}</td>
 						<td>{{$value->jenis}}</td>
-						<td>{{tanggal($value->created_at)}}</td>
 						<td align="right">
 							{{ Form::open(array('url' => url("data/pendidikan/$value->id"), 'method' => 'delete')) }}
 							<a href="{{url('data/pendidikan/'.$value->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fa fa-eye"></i></a>
@@ -51,6 +49,7 @@
 					@endforeach
 				</tbody>
 			</table>
+			{{$pendidikan->appends(array('keyword' => (isset($keyword))?$keyword:''))->links()}}
 		</div>
 	</div>
 </div>

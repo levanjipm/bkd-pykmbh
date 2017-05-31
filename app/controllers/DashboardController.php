@@ -9,7 +9,9 @@ class DashboardController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$this->layout->content = View::make('index');
+		$berita = DB::table('berita')->orderBy('created_at', 'desc')->get();
+
+		$this->layout->content = View::make('index')->with('berita', $berita);
 	}
 
 

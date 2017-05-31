@@ -9,11 +9,16 @@ class DiklatController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$diklat = diklat::all();
+		$diklat = diklat::paginate(20);
 		$this->layout->content = View::make('diklat.index')->with('diklat', $diklat);
 	}
 
 
+	public function search()
+	{
+		$diklat = diklat::where('nama','LIKE', '%'.Input::get('keyword').'%')->paginate(20);
+		$this->layout->content = View::make('diklat.index')->with('diklat', $diklat)->with('keyword', Input::get('keyword'));
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -33,8 +38,7 @@ class DiklatController extends \PykmbhBaseController {
 	public function store()
 	{
 		$rules = array(
-						'nama'		=> 'required',
-						'tahun'		=> 'required|integer'
+						'nama'		=> 'required'
 				      );
 
         $validation = Validator::make(Input::all(),$rules);
@@ -47,7 +51,6 @@ class DiklatController extends \PykmbhBaseController {
 		{
 			$diklat = new diklat;
 			$diklat->nama = Input::get('nama');
-			$diklat->tahun = Input::get('tahun');
 
 			if ($diklat->save()) 
 				return Redirect::to('data/diklat')->with('message', 'Data diklat telah ditambahkan')->with('type', 1);
@@ -80,7 +83,7 @@ class DiklatController extends \PykmbhBaseController {
 	public function edit($id)
 	{
 		$diklat = diklat::find($id);
-		$this->layout->content = View::make('diklat.update')->with('diklat', $diklat);
+		$this->layout->content = View::make('diklat.edit')->with('diklat', $diklat);
 	}
 
 
@@ -93,8 +96,7 @@ class DiklatController extends \PykmbhBaseController {
 	public function update($id)
 	{
 		$rules = array(
-						'nama'		=> 'required',
-						'tahun'		=> 'required|integer'
+						'nama'		=> 'required'
 				      );
 
         $validation = Validator::make(Input::all(),$rules);
@@ -107,7 +109,6 @@ class DiklatController extends \PykmbhBaseController {
 		{
 			$diklat = diklat::find($id);
 			$diklat->nama = Input::get('nama');
-			$diklat->tahun = Input::get('tahun');
 
 			if ($diklat->save()) 
 				return Redirect::to('data/diklat')->with('message', 'Data diklat telah ditambahkan')->with('type', 1);

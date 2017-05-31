@@ -17,17 +17,17 @@ class SKPD extends Eloquent{
 
 	public function induk()
 	{
-		return $this->belongsTo('SKPD', 'indukId');
+		return $this->belongsTo('SKPD', 'indukid');
 	}
 
 	public function anak()
 	{
-		return $this->hasMany('SKPD', 'indukId');
+		return $this->hasMany('SKPD', 'indukid');
 	}
 
 	public function jabatan()
 	{
-		return $this->hasMany('jabatanSKPD', 'skpdId');
+		return $this->hasMany('jabatanSKPD', 'skpdid');
 	}
 
 }

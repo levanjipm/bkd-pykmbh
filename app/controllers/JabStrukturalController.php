@@ -9,11 +9,15 @@ class JabStrukturalController extends \PykmbhBaseController {
 	 */
 	public function index()
 	{
-		$struktural = struktural::all();
+		$struktural = struktural::paginate(20);
 		$this->layout->content = View::make('struktural.index')->with('struktural', $struktural);
 	}
 
-
+	public function search()
+	{
+		$struktural = struktural::where('nama','LIKE', '%'.Input::get('keyword').'%')->paginate(20);
+		$this->layout->content = View::make('struktural.index')->with('struktural', $struktural)->with('keyword', Input::get('keyword'));
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -22,7 +26,8 @@ class JabStrukturalController extends \PykmbhBaseController {
 	public function create()
 	{
 		$struktural = struktural::all();
-		$this->layout->content = View::make('struktural.create')->with('struktural', $struktural);
+		$eselon = DB::table('pykmbh_eselon')->select('*')->get();
+		$this->layout->content = View::make('struktural.create')->with('struktural', $struktural)->with('eselon', $eselon);
 	}
 
 
@@ -49,8 +54,7 @@ class JabStrukturalController extends \PykmbhBaseController {
 		{
 			$struktural = new struktural;
 			$struktural->nama = Input::get('nama');
-			$struktural->eselon_angka = Input::get('eselonangka');
-			$struktural->eselon_huruf = Input::get('eselonhuruf');
+			$struktural->eselonId = Input::get('eselon');
 			$struktural->indukId = Input::get('induk')?Input::get('induk'):null;
 
 			if ($struktural->save()) 
@@ -84,7 +88,12 @@ class JabStrukturalController extends \PykmbhBaseController {
 	public function edit($id)
 	{
 		$struktural = struktural::find($id);
-		$this->layout->content = View::make('struktural.edit')->with('struktural', $struktural);
+
+		$atasan = struktural::where('id', '!=', $id)->orderBy('nama', 'asc')->get();
+
+		$eselon = eselon::all();
+		
+		$this->layout->content = View::make('struktural.edit')->with('struktural', $struktural)->with('atasan', $atasan)->with('eselon', $eselon);
 	}
 
 
@@ -112,8 +121,7 @@ class JabStrukturalController extends \PykmbhBaseController {
 		{
 			$struktural = struktural::find($id);
 			$struktural->nama = Input::get('nama');
-			$struktural->eselon_angka = Input::get('eselonangka');
-			$struktural->eselon_huruf = Input::get('eselonhuruf');
+			$struktural->eselonId = Input::get('eselon');
 
 			if ($struktural->save()) 
 				return Redirect::to('data/jabatan-struktural')->with('message', 'Data jabatan struktural telah ditambahkan')->with('type', 1);
